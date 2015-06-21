@@ -4,16 +4,24 @@
 ## Write a short comment describing this function
 ## Function that receives a matrix and stores it into cache; it also has two functions to store and retrieve the matrix.
 makeCacheMatrix <- function(x = matrix()) {
+  ## Store inverse
+  i <- NULL
+  
   ## Removes old matrix and sets new one.
-  m <- NULL
   set <- function(y) {
     x <<- y
-    m <<- NULL
+    i <<- NULL
   }
   
   get <- function() x
+
+  getInverse <- function() i
+    
+  setInverse <- function(y) {
+    i <<-y
+  }
   
-  list(set = set, get = get)
+  list(set = set, get = get, getInverse = getInverse, setInverse = setInverse)
 }
 
 
@@ -23,16 +31,13 @@ cacheSolve <- function(x) {
     ## Return a matrix that is the inverse of 'x'
     m <- x$get()
   
-  if(!is.null(m)) {
-    if (identical(m,x))
-    {
+  if(!is.null(x$getInverse())) {
       message("getting cached data")
       return(m)
-    }
+  }
     else{
       s = solve(m)
-      x$set(s)
+      x$setInverse(s)
       return(s)
     }
   }
-}
